@@ -3,6 +3,7 @@ import { formatDate, getBlogPosts } from 'app/blog/utils'
 
 export function BlogPosts() {
   let allBlogs = getBlogPosts()
+  console.log(allBlogs,"allblogs")
 
   return (
     <div>
@@ -11,8 +12,10 @@ export function BlogPosts() {
           if (
             new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
           ) {
+            console.log("a")
             return -1
           }
+          console.log("b")
           return 1
         })
         .map((post) => (

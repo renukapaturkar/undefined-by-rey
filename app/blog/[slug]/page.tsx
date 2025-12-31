@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }) {
+export async function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
@@ -51,8 +51,15 @@ export function generateMetadata({ params }) {
   }
 }
 
-export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug)
+export default async function Blog({ params }) {
+  const resolvedParams = await params;
+  const allPosts = getBlogPosts();
+  console.log('--- Debug Info ---');
+  console.log('Incoming slug:', resolvedParams.slug);
+  console.log('Available slugs:', allPosts.map(p => p.slug));
+  let post = allPosts.find((post) => post.slug === resolvedParams.slug)
+  console.log('Found post:', post ? post.metadata.title : 'No post found');
+  console.log('--- End Debug Info ---');
 
   if (!post) {
     notFound()
